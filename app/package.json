@@ -1,0 +1,14 @@
+{
+  "name": "rl-team-tracker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server/server.js",
+    "start": "node server/server.js",
+    "build": "powershell -Command \"if (!(Test-Path 'public')) { exit 1 }; if (Test-Path '../docs') { Remove-Item -Path '../docs' -Recurse -Force }; Copy-Item -Path 'public' -Destination '../docs' -Recurse\""
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
