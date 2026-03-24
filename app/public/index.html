@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rocket League Team Tracker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://embed.twitch.tv/embed/v1.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-left">
+      <img id="team-logo" class="team-logo"src="./images/logo.png"/>
+      <div>
+        <h1 id="team-name"></h1>
+        <p id="team-region" class="team-region"></p>
+        <p class="team-subtitle">
+          Not Really Good • Match analytics via replays • Live Twitch feeds
+        </p>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <div class="stat-pill">
+        <span class="label">Average 2v2 MMR</span>
+        <span id="avg-2v2-mmr" class="value">–</span>
+      </div>
+      <div class="stat-pill">
+        <span class="label">LIVE now</span>
+        <span id="live-count" class="value">–</span>
+      </div>
+    </div>
+  </header>
+  <button class="btn btn--ghost--PH" onclick="window.location.href='https://projects.vantaproject.space';">← Project Hub</button>
+
+
+  <main>
+    <section class="section">
+      <div class="section-head">
+        <h2>Roster</h2>
+        <div class="controls">
+          <button id="refresh-btn" class="btn">Refresh</button>
+          <button id="admin-btn" class="btn btn-ghost" title="Paste updates manually (optional)">Update ranks</button>
+        </div>
+      </div>
+      <div id="players-grid" class="players-grid"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <h2>Recent Matches</h2>
+        <div class="controls">
+          <span class="muted tiny" id="matches-source"></span>
+        </div>
+      </div>
+
+      <div id="matches-grid" class="matches-grid"></div>
+
+      <div id="matches-empty" class="callout" style="display:none;">
+        <strong>No match data yet.</strong>
+        <!-- <div class="muted">To populate this section, set <code>BALLCHASING_API_KEY</code> and optionally <code>BALLCHASING_GROUP_ID</code> in <code>.env</code>, then upload replays to that group.</div> -->
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="muted">Ranks/MMR: manual sync • Match stats: replay-based</span>
+    <span class="api-status-row tiny" aria-live="polite">
+      <span class="api-status-item" id="api-status-ballchasing">Ballchasing: checking…</span>
+      <span class="api-status-item" id="api-status-tracker">Tracker: checking…</span>
+    </span>
+    <span>© <span id="year"></span> <span id="team-name-footer">Not Really Good</span></span>
+  </footer>
+
+  <div id="modal-backdrop" class="modal-backdrop" style="display:none;">
+    <div class="modal">
+      <div class="modal-head">
+        <h3>Manual rank update</h3>
+        <button id="modal-close" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <p class="muted tiny">
+         <code></code>
+      </p>
+
+      <label class="field">
+        <span>Player</span>
+        <select id="modal-player"></select>
+      </label>
+
+      <div class="grid-2">
+        <label class="field">
+          <span>2v2 rank</span>
+          <input id="rank-2v2" placeholder="Champ 2 Div 2" />
+        </label>
+        <label class="field">
+          <span>2v2 MMR</span>
+          <input id="mmr-2v2" inputmode="numeric" placeholder="1420" />
+        </label>
+      </div>
+
+      <div class="grid-2">
+        <label class="field">
+          <span>3v3 rank</span>
+          <input id="rank-3v3" placeholder="Champ 3 Div 1" />
+        </label>
+        <label class="field">
+          <span>3v3 MMR</span>
+          <input id="mmr-3v3" inputmode="numeric" placeholder="1560" />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button id="save-update" class="btn">Save snapshot</button>
+        <button id="cancel-update" class="btn btn-ghost">Cancel</button>
+      </div>
+
+      <p class="muted tiny">
+        <!-- Note: This writes to <code>public/data/team.json</code> via the local server endpoint. If you host this as static-only, manual updates won’t work (you’ll update JSON in Git instead). -->
+      </p>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
